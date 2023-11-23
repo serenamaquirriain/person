@@ -11,14 +11,13 @@ import {
     BaseEntity
 } from 'typeorm'
 
-/*
+
 enum AgeCategory{
     Child = 'Niño',
     Teen = 'Adolescente',
     Adult = 'Adulto',
     Octagenarian = 'Octagenario'
 }
-*/
 
 
 @Entity()
@@ -27,18 +26,18 @@ export class Person extends BaseEntity{
     id: number
 
     /*{nullable:false}*/
-    @Column()
+    @Column({nullable:false})
     name: string;
 
-    @Column()
+    @Column({nullable:false})
     lastName: string;
 
-    @Column()
+    @Column({nullable:false})
     birthDate: Date;
     
     @Column({nullable:true})
-    ageCategory: String;
-    
+    ageCategory: AgeCategory;
+
     @AfterLoad()
     setAgeCategory(){
       if(!this.birthDate){
@@ -48,13 +47,13 @@ export class Person extends BaseEntity{
         const birthDate = this.birthDate
         const age = currentDate.getFullYear() - birthDate.getFullYear()
         if (age < 11) {
-            this.ageCategory = "Child";
+            this.ageCategory = AgeCategory.Child;
           } else if (age < 18) {
-            this.ageCategory = "Teen";
+            this.ageCategory = AgeCategory.Teen;
           } else if(age < 80){
-            this.ageCategory = "Adult";
+            this.ageCategory = AgeCategory.Adult;
           } else{
-            this.ageCategory = "Octagenarian";
+            this.ageCategory = AgeCategory.Octagenarian;
           }
     }
     
