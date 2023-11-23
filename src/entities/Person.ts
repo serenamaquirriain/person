@@ -22,7 +22,7 @@ export class Person extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number
 
-    //{nullable:false}
+    /*{nullable:false}*/
     @Column()
     name: string;
 

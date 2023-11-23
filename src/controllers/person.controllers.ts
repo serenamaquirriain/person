@@ -1,8 +1,8 @@
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import {Person} from '../entities/Person';
 import { request } from "http";
 
-export const createPerson = async (req: Request, res: Response) => {
+export const createPerson = async (req: Request, res: Response, next: NextFunction) => {
     try{
         const {name, lastName, birthDate} = req.body;
         const person = new Person();
@@ -14,24 +14,30 @@ export const createPerson = async (req: Request, res: Response) => {
 
         return res.json(person);
     } catch (error){
+        next(error)
+        /*
         if(error instanceof Error){
             return res.status(500).json({message: error.message});
         }
+        */
     }
 }
 
-export const getPersons = async (req: Request, res: Response) =>{
+export const getPersons = async (req: Request, res: Response, next: NextFunction) =>{
     try{
         const persons = await Person.find()
         return res.json(persons);
     } catch (error) {
+        next(error)
+        /*
         if(error instanceof Error){
             return res.status(500).json({message: error.message});
         }
+        */
     }
 }
 
-export const updatePerson = async(req: Request, res: Response) =>{
+export const updatePerson = async(req: Request, res: Response, next: NextFunction) =>{
     try{
         //const{firstName, lastName} = req.body;
         const {id} = req.params;
@@ -43,14 +49,17 @@ export const updatePerson = async(req: Request, res: Response) =>{
 
         return res.sendStatus(204);
     } catch (error) {
+        next(error)
+        /*
         if(error instanceof Error){
             return res.status(500).json({message: error.message});
         }
+        */
     }
     
 }
 
-export const deletePerson = async(req: Request, res: Response) =>{
+export const deletePerson = async(req: Request, res: Response, next: NextFunction) =>{
     try{
         const {id} = req.params;
         const result = await Person.delete({id: parseInt(id)});
@@ -60,20 +69,26 @@ export const deletePerson = async(req: Request, res: Response) =>{
         }
         return res.sendStatus(204);
     } catch(error){
+        next(error)
+        /*
         if(error instanceof Error){
             return res.status(500).json({message: error.message});
         }
+        */
     }
 };
 
-export const getPerson = async(req: Request, res: Response) => {
+export const getPerson = async(req: Request, res: Response, next: NextFunction) => {
     try{
         const {id} = req.params;
         const person = await Person.findOneBy({id: parseInt(id)});
         return res.json(person);
     } catch(error){
+        next(error)
+        /*
         if(error instanceof Error){
             return res.status(500).json({message: error.message});
         }
+        */
     }
 }
