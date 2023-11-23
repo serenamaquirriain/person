@@ -22,6 +22,7 @@ enum AgeCategory{
 
 @Entity()
 export class Person extends BaseEntity{
+
     @PrimaryGeneratedColumn()
     id: number
 
@@ -43,9 +44,7 @@ export class Person extends BaseEntity{
       if(!this.birthDate){
         throw new Error('birthDate is required')
       }
-        const currentDate = new Date();
-        const birthDate = this.birthDate
-        const age = currentDate.getFullYear() - birthDate.getFullYear()
+        const age = this.setAge(this.birthDate); 
         if (age < 11) {
             this.ageCategory = AgeCategory.Child;
           } else if (age < 18) {
@@ -55,6 +54,17 @@ export class Person extends BaseEntity{
           } else{
             this.ageCategory = AgeCategory.Octagenarian;
           }
+    }
+
+    protected setAge(date: Date){
+      const currentDate = new Date();
+      const birthDate = this.birthDate;
+      let age = currentDate.getFullYear() - birthDate.getFullYear()
+      if(currentDate.getMonth() < birthDate.getMonth() || 
+        (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDay() <= birthDate.getDay())){
+          age--
+        }
+      return age;
     }
     
 
