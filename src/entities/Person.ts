@@ -1,4 +1,7 @@
 import {
+    AfterLoad,
+    AfterInsert,
+    AfterUpdate,
     Column, 
     Entity, 
     PrimaryGeneratedColumn, 
@@ -8,13 +11,14 @@ import {
     BaseEntity
 } from 'typeorm'
 
-
+/*
 enum AgeCategory{
     Child = 'Niño',
     Teen = 'Adolescente',
     Adult = 'Adulto',
     Octagenarian = 'Octagenario'
 }
+*/
 
 
 @Entity()
@@ -32,27 +36,27 @@ export class Person extends BaseEntity{
     @Column()
     birthDate: Date;
     
-    /*
-    @Column()
-    ageCategory: AgeCategory;
-    */
-
-    /*
-    @BeforeInsert()
-    @BeforeUpdate()
+    @Column({nullable:true})
+    ageCategory: String;
+    
+    @AfterLoad()
     setAgeCategory(){
+      if(!this.birthDate){
+        throw new Error('birthDate is required')
+      }
         const currentDate = new Date();
-        const age = currentDate.getFullYear() - this.birthDate.getFullYear();
+        const birthDate = this.birthDate
+        const age = currentDate.getFullYear() - birthDate.getFullYear()
         if (age < 11) {
-            this.ageCategory = AgeCategory.Child;
+            this.ageCategory = "Child";
           } else if (age < 18) {
-            this.ageCategory = AgeCategory.Teen;
+            this.ageCategory = "Teen";
           } else if(age < 80){
-            this.ageCategory = AgeCategory.Adult;
+            this.ageCategory = "Adult";
           } else{
-            this.ageCategory = AgeCategory.Octagenarian;
+            this.ageCategory = "Octagenarian";
           }
     }
-    */
+    
 
 }
