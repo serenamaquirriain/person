@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const app_1 = __importDefault(require("./app"));
 const db_1 = require("./db");
+const updater_1 = __importDefault(require("./updater"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield db_1.AppDataSource.initialize();
             console.log("Database connected");
             app_1.default.listen(4000);
-            console.log("Server on port", 4000);
+            //console.log("Server on port", 4000);
         }
         catch (error) {
             console.error(error);
@@ -29,3 +30,4 @@ function main() {
     });
 }
 main();
+(0, updater_1.default)();

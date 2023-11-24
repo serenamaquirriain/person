@@ -20,8 +20,10 @@ var AgeCategory;
 })(AgeCategory || (AgeCategory = {}));
 let Person = class Person extends typeorm_1.BaseEntity {
     setAgeCategory() {
-        const currentDate = new Date();
-        const age = currentDate.getFullYear() - this.birthDate.getFullYear();
+        if (!this.birthDate) {
+            throw new Error('birthDate is required');
+        }
+        const age = this.setAge(this.birthDate);
         if (age < 11) {
             this.ageCategory = AgeCategory.Child;
         }
@@ -34,6 +36,16 @@ let Person = class Person extends typeorm_1.BaseEntity {
         else {
             this.ageCategory = AgeCategory.Octagenarian;
         }
+    }
+    setAge(date) {
+        const currentDate = new Date();
+        const birthDate = this.birthDate;
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+        if (currentDate.getMonth() < birthDate.getMonth() ||
+            (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDay() <= birthDate.getDay())) {
+            age--;
+        }
+        return age;
     }
 };
 exports.Person = Person;
@@ -54,12 +66,11 @@ __decorate([
     __metadata("design:type", Date)
 ], Person.prototype, "birthDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Person.prototype, "ageCategory", void 0);
 __decorate([
-    (0, typeorm_1.BeforeInsert)(),
-    (0, typeorm_1.BeforeUpdate)(),
+    (0, typeorm_1.AfterLoad)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
