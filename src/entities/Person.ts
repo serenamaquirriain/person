@@ -8,8 +8,12 @@ import {
     BeforeInsert,
     BeforeUpdate,
     Index,
-    BaseEntity
+    BaseEntity,
+    Between
 } from 'typeorm'
+
+import { AppDataSource } from '../db';
+import cron from 'node-cron'
 
 
 enum AgeCategory{
@@ -65,7 +69,8 @@ export class Person extends BaseEntity{
           age--
         }
       return age;
-    }
-    
+      }
 
 }
+
+export default Person
