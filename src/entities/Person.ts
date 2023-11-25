@@ -39,37 +39,41 @@ export class Person extends BaseEntity{
 
     @Column({nullable:false})
     birthDate: Date;
+
+    @Column({nullable:true})
+    age: number
     
     @Column({nullable:true})
     ageCategory: AgeCategory;
 
     @AfterLoad()
+    setAge(){
+      const today = new Date();
+      const birthDate = this.birthDate;
+      this.age = today.getFullYear() - birthDate.getFullYear()
+      if(birthDate.getMonth() > today.getMonth() || 
+        (birthDate.getMonth() === today.getMonth() && birthDate.getDay() > today.getDay())){
+          this.age--
+        }
+    }
+
+    @AfterLoad()
     setAgeCategory(){
-      if(!this.birthDate){
-        throw new Error('birthDate is required')
+      if(!this.birthDate || !this.age){
+        throw new Error('birthDate and date are required')
       }
-        const age = this.setAge(this.birthDate); 
-        if (age < 11) {
+        const age = this.age 
+        if (this.age < 11) {
             this.ageCategory = AgeCategory.Child;
-          } else if (age < 18) {
+          } else if (this.age < 18) {
             this.ageCategory = AgeCategory.Teen;
-          } else if(age < 80){
+          } else if(this.age < 80){
             this.ageCategory = AgeCategory.Adult;
           } else{
             this.ageCategory = AgeCategory.Octagenarian;
           }
     }
 
-    protected setAge(date: Date){
-      const currentDate = new Date();
-      const birthDate = this.birthDate;
-      let age = currentDate.getFullYear() - birthDate.getFullYear()
-      if(currentDate.getMonth() < birthDate.getMonth() || 
-        (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDay() <= birthDate.getDay())){
-          age--
-        }
-      return age;
-      }
 
 }
 

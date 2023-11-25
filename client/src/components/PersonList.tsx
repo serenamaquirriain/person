@@ -69,7 +69,13 @@ export default function PersonList(){
         const response = await fetch(url);
         const data = await response.json();
 
-        setPersons(data);
+        const formattedPersons = data.map((person: Person) => ({
+          ...person,
+          formattedDate: new Date(person.birthDate).toLocaleDateString(),
+        }));
+        setPersons(formattedPersons); 
+
+        //setPersons(data);
   
         // Do something with the data (update state, display, etc.)
         console.log(data);
@@ -87,8 +93,9 @@ export default function PersonList(){
           id: person.id,
           name: person.name,
           lastName: person.lastName,
-          birthDate: person.formattedDate,
+          age: person.age,
           ageCategory: person.ageCategory,
+          birthDate: person.formattedDate,
           actions: (
             <div>
               <Button
@@ -120,8 +127,9 @@ export default function PersonList(){
                 columns={[
                     { field: 'name', headerName: 'Name', flex: 1 },
                     { field: 'lastName', headerName: 'Last Name', flex: 1 },
-                    { field: 'birthDate', headerName: 'Birth Date', flex: 1 },
-                    { field: 'ageCategory', headerName: 'Age Category', flex: 1 }
+                    { field: 'age', headerName: 'Age', flex: 1 },
+                    { field: 'ageCategory', headerName: 'Age Category', flex: 1 },
+                    { field: 'birthDate', headerName: 'Birth Date', flex: 1 }
                 ]}
             />
             <Button

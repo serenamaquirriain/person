@@ -18,17 +18,18 @@ const dailyUpdate = async () => {
         // Use the RAW SQL to compare only the month and day components
         birthDate: Raw(
           (Person) =>
-            
             `EXTRACT(MONTH FROM "Person"."birthDate") = ${todayMonth} AND EXTRACT(DAY FROM "Person"."birthDate") = ${todayDay}`
         ),
       },
        // birthDate: Equal(today),
       //},
     });
+    for (const person of personsToUpdate) {
+      person.age += 1; // Increment the age by 1
+      await AppDataSource.getRepository(Person).save(person);
+    }
     console.log(personsToUpdate);
     console.log('ejecutando!!');
     }
-//corre a las 00:00 todos los dias
-cron.schedule('27 6 * * *', dailyUpdate);
 
 export default dailyUpdate;
