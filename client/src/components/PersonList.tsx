@@ -5,9 +5,15 @@ import { DataGrid } from '@mui/x-data-grid'
 import {useNavigate} from 'react-router-dom'
 import Person from './Person'
 
+type SortOrder = 'ASC' | 'DESC';
+type SortBy = 'name' | 'lastName';
+
 export default function PersonList(){
 
     const [persons, setPersons] = useState<Person[]>([])
+
+    //const [sortBy, setSortBy] = useState('name'); // Default sorting field
+    //const [sortOrder, setSortOrder] = useState('ASC'); // Default sorting order
 
     const navigate = useNavigate();
 
@@ -23,6 +29,14 @@ export default function PersonList(){
         //setPersons(data)
     }
 
+    useEffect(()=>{
+        loadPersons();
+    }, [])
+
+    //?sortBy=name%sortOrder=ASC
+    //http://localhost:4000/persons?sortBy=name%sortOrder=ASC
+
+
     const handleDelete = async (id: String) => {
         try{
             //borro del back
@@ -37,9 +51,36 @@ export default function PersonList(){
         }
     }
 
-    useEffect(()=>{
-        loadPersons();
-    }, [])
+    const handleSort = async (sortOrder: SortOrder, sortBy: SortBy) => {
+      try {
+        console.log('button clicked')
+        // Specify your sortBy and sortOrder values
+        //const sortBy = 'name'; // Replace with your desired field
+        //const sortOrder = 'ASC'; // Replace with 'ASC' or 'DESC'
+
+        //setSortBy(sortBy);
+        //setSortOrder(sortOrder);
+  
+        // Construct the URL with the parameters
+        const url = `http://localhost:4000/persons?sortBy=${sortBy}&sortOrder=${sortOrder}`;
+        //const url = `http://localhost:4000/persons?sortBy=name&sortOrder=ASC`;
+  
+        // Make the request to your backend
+        const response = await fetch(url);
+        const data = await response.json();
+
+        setPersons(data);
+  
+        // Do something with the data (update state, display, etc.)
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching persons:', error);
+      }
+    }
+    
+    //useEffect(()=>{
+      //loadPersons();
+    //}, [sortBy, sortOrder])
 
     const personsToRows = (persons: Person[]) => {
         return persons.map((person: Person, index) => ({
@@ -83,6 +124,37 @@ export default function PersonList(){
                     { field: 'ageCategory', headerName: 'Age Category', flex: 1 }
                 ]}
             />
+            <Button
+                variant="contained"
+                color="inherit"
+                onClick={()=>handleSort('ASC', 'name')}
+            >
+              Name ascending
+            </Button>
+
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={()=>handleSort('DESC', 'name')}
+            >
+              Name descending
+            </Button>
+
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={()=>handleSort('ASC', 'lastName')}
+            >
+              lastName ascending
+            </Button>
+
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={()=>handleSort('DESC', 'lastName')}
+            >
+              lastName descending
+            </Button>
         </>
     )
 }

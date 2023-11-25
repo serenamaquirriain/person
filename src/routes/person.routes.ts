@@ -13,4 +13,6 @@ router.delete('/persons/:id', deletePerson);
 
 router.get('/persons/:id', getPerson);
 
+//router.get('http://localhost:4000/persons?sortBy=name%sortOrder=ASC', getPersonsNameAsc);
+
 export default router

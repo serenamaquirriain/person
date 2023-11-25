@@ -1,6 +1,8 @@
 import {NextFunction, Request, Response} from "express";
 import {Person} from '../entities/Person';
 import { request } from "http";
+import { AppDataSource } from '../db';
+import {Equal} from 'typeorm'
 
 export const createPerson = async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -23,19 +25,28 @@ export const createPerson = async (req: Request, res: Response, next: NextFuncti
     }
 }
 
-export const getPersons = async (req: Request, res: Response, next: NextFunction) =>{
-    try{
-        const persons = await Person.find()
-        return res.json(persons);
-    } catch (error) {
-        next(error)
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
+
+export const getPersons = async (req: Request, res: Response, next: NextFunction) => {
+    const sortOrderValidValues = ["ASC", "DESC"];
+
+    try {
+    const sortBy = req.query.sortBy as string | undefined;
+    const sortOrder = req.query.sortOrder as string | undefined;
+
+    const queryBuilder = AppDataSource.getRepository(Person).createQueryBuilder('person');
+
+    if (sortBy && sortOrder && sortOrderValidValues.includes(sortOrder)) {
+        queryBuilder.orderBy(`person.${sortBy}`, sortOrder as "ASC" | "DESC");
     }
-}
+
+    const persons = await queryBuilder.getMany();
+
+    return res.json(persons);
+    } catch (error) {
+        next(error);
+    }
+  };
+
 
 export const updatePerson = async(req: Request, res: Response, next: NextFunction) =>{
     try{
