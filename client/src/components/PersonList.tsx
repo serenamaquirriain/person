@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from "react"
-import {Button, Table, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
+import {Button, Table, TablePagination, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
 import {Delete, Edit, ArrowUpward} from '@mui/icons-material'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 //Card, CardContent, Typography
@@ -125,10 +125,10 @@ export default function PersonList(){
                               </div>
                               <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <IconButton onClick={()=>handleSort('ASC', 'name')}>
-                                  <ArrowUpward style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                  <ArrowUpward style={{ minWidth: '10px', minHeight: '10px', maxWidth: '12px', maxHeight: '12px'}} />
                                 </IconButton>
                                 <IconButton onClick={()=>handleSort('DESC', 'name')}>
-                                  <ArrowDownwardIcon style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                  <ArrowDownwardIcon style={{ minWidth: '10px', minHeight: '10px', maxWidth: '12px', maxHeight: '12px' }} />
                                 </IconButton>
                               </div>
                             </div>
@@ -140,18 +140,18 @@ export default function PersonList(){
                               </div>
                               <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <IconButton onClick={()=>handleSort('ASC', 'lastName')}>
-                                  <ArrowUpward style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                  <ArrowUpward style={{ minWidth: '10px', minHeight: '10px', maxWidth: '12px', maxHeight: '12px' }} />
                                 </IconButton>
                                 <IconButton onClick={()=>handleSort('DESC', 'lastName')}>
-                                  <ArrowDownwardIcon style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                  <ArrowDownwardIcon style={{ minWidth: '10px', minHeight: '10px', maxWidth: '12px', maxHeight: '12px' }} />
                                 </IconButton>
                               </div>
                             </div>
                           </TableCell>
-                          <TableCell align="right">Age</TableCell>
-                          <TableCell align="right">Age Category</TableCell>
-                          <TableCell align="right">Birth Date</TableCell>
-                          <TableCell align="right">Actions</TableCell>
+                          <TableCell align="center">Age</TableCell>
+                          <TableCell align="center">Age Category</TableCell>
+                          <TableCell align="center">Birth Date</TableCell>
+                          <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -160,22 +160,22 @@ export default function PersonList(){
                                 key={row.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
+                                <TableCell align="center">
                                   {row.name}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                   {row.lastName}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                   {row.age}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                   {row.ageCategory}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                   {row.birthDate}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell align="center">
                                   {row.actions}
                                 </TableCell>
                             </TableRow>

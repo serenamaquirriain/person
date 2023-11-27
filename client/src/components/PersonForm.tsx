@@ -16,7 +16,6 @@ export default function PersonForm(){
 
     const [nameErrorMessage, setNameErrorMessage] = useState('');
     const [lastNameErrorMessage, setLastNameErrorMessage] = useState('');
-    //const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -49,23 +48,24 @@ export default function PersonForm(){
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-            // Validate only letters for name
+        // Validate only letters for name
         if (name === 'name' && !/^[A-Za-z]*$/.test(value)) {
-            setNameErrorMessage('Please enter only letters for the name.');
-        } else {
+            setNameErrorMessage('Please enter letters only');
+          } else if (name === 'name') {
             setNameErrorMessage('');
-        }
-    
-        // Validate only letters for lastName
-        if (name === 'lastName' && !/^[A-Za-z]*$/.test(value)) {
-            setLastNameErrorMessage('Please enter only letters for the last name.');
-        } else {
+          }
+        
+          // Validate only letters for lastName
+          if (name === 'lastName' && !/^[A-Za-z]*$/.test(value)) {
+            setLastNameErrorMessage('Please enter letters only');
+          } else if (name === 'lastName') {
             setLastNameErrorMessage('');
-            setPerson({
+          }
+        
+          setPerson({
             ...person,
             [name]: value,
-            });
-        }
+          });
     };
 
     const loadPerson = async (id: string) => {
@@ -98,7 +98,7 @@ export default function PersonForm(){
                         <form onSubmit={handleSubmit}>
                             <TextField
                                 variant='filled'
-                                label='Enter your name'
+                                label='Enter name'
                                 sx={{
                                     display: 'block',
                                     margin: '.5rem 0'
@@ -112,7 +112,7 @@ export default function PersonForm(){
 
                             <TextField
                                 variant='filled'
-                                label='Enter your last name'
+                                label='Enter last name'
                                 sx={{
                                     display: 'block',
                                     margin: '.5rem 0'
@@ -126,23 +126,24 @@ export default function PersonForm(){
                             
 
                             <TextField
-                            variant="filled"
-                            label="Select a date"
-                            type="date"
-                            sx={{
-                                display: 'block',
-                                margin: '.5rem 0'
-                            }}
-                            name="birthDate"  // Set the appropriate name for your date field
-                            value={person.birthDate}  // Assuming `person.birthDate` is of type `Date | null`
-                            onChange={handleChange}
+                                variant="filled"
+                                label="Select a date"
+                                type="date"
+                                sx={{
+                                    display: 'block',
+                                    margin: '.5rem 0'
+                                }}
+                                name="birthDate"  // Set the appropriate name for your date field
+                                value={person.birthDate}  // Assuming `person.birthDate` is of type `Date | null`
+                                onChange={handleChange}
                             />
 
                             <Button
                                 variant='contained'
                                 color='primary'
                                 type='submit'
-                                disabled={!person.name || !person.lastName || !person.birthDate}
+                                disabled={!person.name || !/^[A-Za-z]*$/.test(person.name) || 
+                                    !person.lastName || !/^[A-Za-z]*$/.test(person.lastName) || !person.birthDate}
                             >
                                 {loading? <CircularProgress
                                     color='inherit'

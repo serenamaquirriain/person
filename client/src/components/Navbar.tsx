@@ -1,7 +1,7 @@
 import React from 'react';
-import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
+import {IconButton, AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
 import {Link, useNavigate} from 'react-router-dom'
-import {Delete, Edit, ArrowUpward} from '@mui/icons-material'
+import {Delete, Edit, ArrowUpward, Home} from '@mui/icons-material'
 
 export default function Navbar(){
 
@@ -10,13 +10,16 @@ export default function Navbar(){
         <Box sx={{flexGrow: 1}}>
             <AppBar position='static' color='transparent'>
                 <Container>
-                    <Toolbar>
-                        <Typography sx={{flexGrow: 1}}>
-                            <Link to="/" style={{textDecoration:'none'}}>Person List</Link>
-                        </Typography>
+                    <Toolbar sx={{ justifyContent: 'space-between' }}>
+                        <IconButton
+                            onClick={() => navigate("/")}
+                            aria-label="home"
+                            >
+                            <Home style={{ maxWidth: '35px', maxHeight: '35px', minWidth: '35px', minHeight: '35px' }}/>
+                        </IconButton>
 
                         <Button variant='contained' color='primary' onClick={()=> navigate("/persons/new")}>
-                            New User
+                            New Person
                         </Button>
                     </Toolbar>
                 </Container>
