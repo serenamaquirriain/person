@@ -1,3 +1,4 @@
+import React from 'react';
 import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
 import {Link, useNavigate} from 'react-router-dom'
 
@@ -13,7 +14,7 @@ export default function Navbar(){
                             <Link to="/" style={{textDecoration:'none'}}>Person List</Link>
                         </Typography>
 
-                        <Button variant='contained' color='primary' onClick={()=> navigate("/users/new")}>
+                        <Button variant='contained' color='primary' onClick={()=> navigate("/persons/new")}>
                             New User
                         </Button>
                     </Toolbar>

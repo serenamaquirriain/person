@@ -10,8 +10,6 @@ const dailyUpdate = async () => {
     const todayMonth = today.getMonth() + 1; // Months are 0-indexed, so add 1
     const todayDay = today.getDate();
 
-
-    // Find persons whose birthDate is between start and end of today
     const personsToUpdate = await AppDataSource.getRepository(Person).find({
       where: {
 

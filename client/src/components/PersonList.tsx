@@ -1,9 +1,13 @@
+import React from 'react';
 import {useState, useEffect} from "react"
-import {Button} from '@mui/material'
+import {Button, Table, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
+import {ArrowDropUp} from '@mui/icons-material'
 //Card, CardContent, Typography
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid} from '@mui/x-data-grid'
 import {useNavigate} from 'react-router-dom'
 import Person from './Person'
+
+//import { useReactTable } from '@tanstack/react-table'
 
 type SortOrder = 'ASC' | 'DESC';
 type SortBy = 'name' | 'lastName';
@@ -108,7 +112,7 @@ export default function PersonList(){
       
               <Button
                 variant="contained"
-                color="warning"
+                color="secondary"
                 onClick={() => handleDelete(person.id.toString())}
               >
                 Delete
@@ -116,22 +120,57 @@ export default function PersonList(){
             </div>
           ),
         }));
-      };      
+      };
+      
+    const rows = personsToRows(persons)
 
     return(
         <>
             <h1>Person List</h1>
-            <DataGrid
-                autoHeight
-                rows={personsToRows(persons)}
-                columns={[
-                    { field: 'name', headerName: 'Name', flex: 1 },
-                    { field: 'lastName', headerName: 'Last Name', flex: 1 },
-                    { field: 'age', headerName: 'Age', flex: 1 },
-                    { field: 'ageCategory', headerName: 'Age Category', flex: 1 },
-                    { field: 'birthDate', headerName: 'Birth Date', flex: 1 }
-                ]}
-            />
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="right">Name</TableCell>
+                              <IconButton>
+                                  <ArrowDropUp/>
+                                </IconButton>
+                            <TableCell align="right">Last Name</TableCell>
+                            <TableCell align="right">Age</TableCell>
+                            <TableCell align="right">Age Category</TableCell>
+                            <TableCell align="right">Birth Date</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                  {row.name}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.lastName}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.age}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.ageCategory}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.birthDate}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.actions}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <Button
                 variant="contained"
                 color="inherit"

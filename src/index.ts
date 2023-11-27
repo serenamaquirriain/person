@@ -2,7 +2,6 @@ import "reflect-metadata";
 import app from "./app";
 import {AppDataSource} from "./db";
 import dailyUpdate from "./updater";
-import {Person} from './entities/Person'
 import cron from 'node-cron';
 
 
