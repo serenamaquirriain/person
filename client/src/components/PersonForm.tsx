@@ -16,6 +16,7 @@ export default function PersonForm(){
 
     const [nameErrorMessage, setNameErrorMessage] = useState('');
     const [lastNameErrorMessage, setLastNameErrorMessage] = useState('');
+    const [birthDateErrorMessage, setBirthDateErrorMessage] = useState('')
 
     const navigate = useNavigate();
     const params = useParams();
@@ -48,19 +49,42 @@ export default function PersonForm(){
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Validate only letters for name
-        if (name === 'name' && !/^[A-Za-z]*$/.test(value)) {
-            setNameErrorMessage('Please enter letters only');
-          } else if (name === 'name') {
-            setNameErrorMessage('');
-          }
+        // Validate name
+        if (name === 'name'){
+            if(!/^[A-Za-z]*$/.test(value)){
+                setNameErrorMessage('Please enter letters only');
+            } else if (value.length >= 50){
+                setNameErrorMessage('Name is too long');
+            }else{
+                setNameErrorMessage('');
+            }
+           
+        }   
+            
+        // Validate lastName
+        if (name === 'lastName'){
+            if(!/^[A-Za-z]*$/.test(value)) {
+                setLastNameErrorMessage('Please enter letters only');
+            } else if (value.length >= 50){
+                setLastNameErrorMessage('Last name is too long');
+            }else{
+                setLastNameErrorMessage('');
+            }   
+        }
+
+          if (name === 'birthDate') {
+            const enteredDate = new Date(value);
+            const minDate = new Date('1900-01-01'); 
+            const maxDate = new Date(); //today
         
-          // Validate only letters for lastName
-          if (name === 'lastName' && !/^[A-Za-z]*$/.test(value)) {
-            setLastNameErrorMessage('Please enter letters only');
-          } else if (name === 'lastName') {
-            setLastNameErrorMessage('');
+            if (isNaN(enteredDate.getFullYear()) || enteredDate < minDate || enteredDate > maxDate) {
+              setBirthDateErrorMessage(`Please enter a date between ${minDate.toISOString().split('T')[0]} and ${maxDate.toISOString().split('T')[0]}`);
+            } else {
+              setBirthDateErrorMessage('');
+            }
           }
+
+          
         
           setPerson({
             ...person,
@@ -91,8 +115,8 @@ export default function PersonForm(){
                 <Card
                     sx={{mt: 5}}
                 >
-                    <Typography>
-                        {editing? "Create Person" : "Update"}
+                    <Typography variant="subtitle1" component="div" sx={{ textAlign: 'center', mt: 2 }}>
+                        {editing? "Update" : "Create new person"}
                     </Typography>
                     <CardContent>
                         <form onSubmit={handleSubmit}>
@@ -106,6 +130,7 @@ export default function PersonForm(){
                                 name="name"
                                 value={person.name}
                                 onChange={handleChange}
+                                inputProps={{maxLength:50}}
                             />
 
                             {nameErrorMessage && <Typography color="error">{nameErrorMessage}</Typography>}
@@ -120,6 +145,7 @@ export default function PersonForm(){
                                 name="lastName"
                                 value={person.lastName}
                                 onChange={handleChange}
+                                inputProps={{maxLength:50}}
                             />
                             {lastNameErrorMessage && <Typography color="error">{lastNameErrorMessage}</Typography>}
 
@@ -136,14 +162,20 @@ export default function PersonForm(){
                                 name="birthDate"  // Set the appropriate name for your date field
                                 value={person.birthDate}  // Assuming `person.birthDate` is of type `Date | null`
                                 onChange={handleChange}
+                                inputProps={{
+                                    style: {
+                                      height: '40px', // Set the desired height
+                                    },
+                                  }}
                             />
+                            {birthDateErrorMessage && <Typography color="error">{birthDateErrorMessage}</Typography>}
 
                             <Button
                                 variant='contained'
                                 color='primary'
                                 type='submit'
                                 disabled={!person.name || !/^[A-Za-z]*$/.test(person.name) || 
-                                    !person.lastName || !/^[A-Za-z]*$/.test(person.lastName) || !person.birthDate}
+                                    !person.lastName || !/^[A-Za-z]*$/.test(person.lastName) || !person.birthDate || birthDateErrorMessage }
                             >
                                 {loading? <CircularProgress
                                     color='inherit'
