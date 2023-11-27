@@ -21,6 +21,7 @@ export default function PersonForm(){
     const navigate = useNavigate();
     const params = useParams();
 
+    // For submitting the form
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -45,7 +46,7 @@ export default function PersonForm(){
 
         navigate("/");
     }
-
+    // For handling user input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -71,8 +72,9 @@ export default function PersonForm(){
                 setLastNameErrorMessage('');
             }   
         }
-
-          if (name === 'birthDate') {
+        
+        // Validate birthDate
+        if (name === 'birthDate') {
             const enteredDate = new Date(value);
             const minDate = new Date('1900-01-01'); 
             const maxDate = new Date(); //today
@@ -82,7 +84,7 @@ export default function PersonForm(){
             } else {
               setBirthDateErrorMessage('');
             }
-          }
+        }
 
           
         
@@ -92,6 +94,7 @@ export default function PersonForm(){
           });
     };
 
+    // Retrieves the person to edit
     const loadPerson = async (id: string) => {
         const res = await fetch(`http://localhost:4000/persons/${id}`);
         const data = await res.json();
@@ -104,7 +107,8 @@ export default function PersonForm(){
             loadPerson(params.id);
         }
     }, [params.id])
-
+    
+    // Returns the form to create a new person or edit an existing one
     return(
         <Grid 
             container direction="column"
@@ -116,7 +120,7 @@ export default function PersonForm(){
                     sx={{mt: 5}}
                 >
                     <Typography variant="subtitle1" component="div" sx={{ textAlign: 'center', mt: 2 }}>
-                        {editing? "Update" : "Create new person"}
+                        {editing? "Update" : "New person"}
                     </Typography>
                     <CardContent>
                         <form onSubmit={handleSubmit}>
@@ -159,29 +163,46 @@ export default function PersonForm(){
                                     display: 'block',
                                     margin: '.5rem 0'
                                 }}
-                                name="birthDate"  // Set the appropriate name for your date field
-                                value={person.birthDate}  // Assuming `person.birthDate` is of type `Date | null`
+                                name="birthDate" 
+                                value={person.birthDate}
                                 onChange={handleChange}
                                 inputProps={{
                                     style: {
-                                      height: '40px', // Set the desired height
+                                      height: '40px'
                                     },
                                   }}
                             />
                             {birthDateErrorMessage && <Typography color="error">{birthDateErrorMessage}</Typography>}
-
-                            <Button
-                                variant='contained'
-                                color='primary'
-                                type='submit'
-                                disabled={!person.name || !/^[A-Za-z]*$/.test(person.name) || 
-                                    !person.lastName || !/^[A-Za-z]*$/.test(person.lastName) || !person.birthDate || birthDateErrorMessage }
-                            >
-                                {loading? <CircularProgress
-                                    color='inherit'
-                                    size={24}
-                                /> : 'Save'}
-                            </Button>
+                            <Grid container spacing={2} justifyContent="space-between">
+                                <Grid item>
+                                    <Button
+                                        variant='contained'
+                                        color='inherit'
+                                        type='submit'
+                                        onClick={() => navigate("/")}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                                
+                                <Grid item>
+                                    <Button
+                                        variant='contained'
+                                        color='primary'
+                                        type='submit'
+                                        disabled={!person.name || !/^[A-Za-z]*$/.test(person.name) || 
+                                            !person.lastName || !/^[A-Za-z]*$/.test(person.lastName) || !person.birthDate || birthDateErrorMessage }
+                                    >
+                                        {loading? <CircularProgress
+                                            color='inherit'
+                                            size={24}
+                                        /> : 'Save'}
+                                    </Button>
+                                </Grid>
+                                
+                            </Grid>
+                            
+                            
                         </form>
                     </CardContent>
                 </Card>

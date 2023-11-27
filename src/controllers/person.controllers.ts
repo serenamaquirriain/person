@@ -17,11 +17,6 @@ export const createPerson = async (req: Request, res: Response, next: NextFuncti
         return res.json(person);
     } catch (error){
         next(error)
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 }
 
@@ -50,22 +45,15 @@ export const getPersons = async (req: Request, res: Response, next: NextFunction
 
 export const updatePerson = async(req: Request, res: Response, next: NextFunction) =>{
     try{
-        //const{firstName, lastName} = req.body;
         const {id} = req.params;
 
         const person = await Person.findOneBy({id: parseInt(req.params.id)})
         if(!person) return res.status(404).json({message: 'Person not found'});
 
-        await Person.update({id: parseInt(id)}, req.body); //para que solo actualice lo que le paso
-
+        await Person.update({id: parseInt(id)}, req.body); // only the new parameters are updated
         return res.sendStatus(204);
     } catch (error) {
         next(error)
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
     
 }
@@ -81,11 +69,6 @@ export const deletePerson = async(req: Request, res: Response, next: NextFunctio
         return res.sendStatus(204);
     } catch(error){
         next(error)
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 };
 
@@ -96,10 +79,5 @@ export const getPerson = async(req: Request, res: Response, next: NextFunction) 
         return res.json(person);
     } catch(error){
         next(error)
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 }

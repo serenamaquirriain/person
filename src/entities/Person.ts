@@ -10,11 +10,9 @@ import {
     Index,
     BaseEntity,
     Between
-} from 'typeorm'
+} from 'typeorm';
 
-import { AppDataSource } from '../db';
-import cron from 'node-cron'
-
+//import { AppDataSource } from '../db';
 
 enum AgeCategory{
     Child = 'Niño',
@@ -30,7 +28,6 @@ export class Person extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number
 
-    /*{nullable:false}*/
     @Column({nullable:false})
     name: string;
 
@@ -46,6 +43,7 @@ export class Person extends BaseEntity{
     @Column({nullable:true})
     ageCategory: AgeCategory;
 
+    // Calculates age from birthDate
     @AfterLoad()
     setAge(){
       const today = new Date();
@@ -56,7 +54,7 @@ export class Person extends BaseEntity{
           this.age--
         }
     }
-
+    // Calculates Age Category from age
     @AfterLoad()
     setAgeCategory(){
       if(!this.birthDate || !this.age){
@@ -77,4 +75,4 @@ export class Person extends BaseEntity{
 
 }
 
-export default Person
+export default Person;

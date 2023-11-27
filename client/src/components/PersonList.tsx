@@ -1,14 +1,10 @@
 import React from 'react';
 import {useState, useEffect} from "react"
-import {Button, Table, TablePagination, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
+import {Table, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
 import {Delete, Edit, ArrowUpward} from '@mui/icons-material'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-//Card, CardContent, Typography
-//import { DataGrid} from '@mui/x-data-grid'
 import {useNavigate} from 'react-router-dom'
 import Person from './Person'
-
-//import { useReactTable } from '@tanstack/react-table'
 
 type SortOrder = 'ASC' | 'DESC';
 type SortBy = 'name' | 'lastName';
@@ -16,9 +12,6 @@ type SortBy = 'name' | 'lastName';
 export default function PersonList(){
 
     const [persons, setPersons] = useState<Person[]>([])
-
-    //const [sortBy, setSortBy] = useState('name'); // Default sorting field
-    //const [sortOrder, setSortOrder] = useState('ASC'); // Default sorting order
 
     const navigate = useNavigate();
 
@@ -30,26 +23,20 @@ export default function PersonList(){
           formattedDate: new Date(person.birthDate).toLocaleDateString(),
         }));
         setPersons(formattedPersons); 
-        //console.log(data)
-        //setPersons(data)
     }
 
     useEffect(()=>{
         loadPersons();
     }, [])
 
-    //?sortBy=name%sortOrder=ASC
-    //http://localhost:4000/persons?sortBy=name%sortOrder=ASC
-
-
     const handleDelete = async (id: String) => {
         try{
-            //borro del back
+            //deletes from back
             await fetch(`http://localhost:4000/persons/${id}`, {
                 method: "DELETE",
             })
 
-            //borro del front  
+            //deletes from front  
             setPersons(persons.filter(person => (person.id).toString() !== id))
         } catch(error){
             console.log(error);
@@ -60,11 +47,10 @@ export default function PersonList(){
       try {
         console.log('button clicked')
         
-        // Construct the URL with the parameters
+        //Builds the URL with the parameters
         const url = `http://localhost:4000/persons?sortBy=${sortBy}&sortOrder=${sortOrder}`;
-        //const url = `http://localhost:4000/persons?sortBy=name&sortOrder=ASC`;
-  
-        // Make the request to the backend
+
+        //Makes the request to the backend
         const response = await fetch(url);
         const data = await response.json();
 
@@ -73,19 +59,10 @@ export default function PersonList(){
           formattedDate: new Date(person.birthDate).toLocaleDateString(),
         }));
         setPersons(formattedPersons); 
-
-        //setPersons(data);
-  
-        // Do something with the data (update state, display, etc.)
-        console.log(data);
       } catch (error) {
         console.error('Error fetching persons:', error);
       }
     }
-    
-    //useEffect(()=>{
-      //loadPersons();
-    //}, [sortBy, sortOrder])
 
     const personsToRows = (persons: Person[]) => {
         return persons.map((person: Person, index) => ({
@@ -98,10 +75,10 @@ export default function PersonList(){
           actions: (
             <div>
               <IconButton onClick={()=>navigate(`/persons/${person.id}/edit`)}>
-                <Edit style={{ maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px' }} />
+                <Edit style={{ minWidth: '20px', minHeight: '20px', maxWidth: '20px', maxHeight: '20px' }} />
               </IconButton>
               <IconButton onClick={()=>handleDelete(person.id.toString())}>
-                <Delete style={{ maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px' }} />
+                <Delete style={{ minWidth: '20px', minHeight: '20px', maxWidth: '20px', maxHeight: '20px' }} />
               </IconButton>
               
             </div>
@@ -111,11 +88,12 @@ export default function PersonList(){
       
     const rows = personsToRows(persons)
 
+    //returns table with all entries
     return(
         <>
             <h1>Person List</h1>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 650 }}>
                     <TableHead>
                         <TableRow>
                           <TableCell align="right">

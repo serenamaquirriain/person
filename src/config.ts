@@ -1,10 +1,6 @@
 import dotenv from 'dotenv';
 
-// Call the config method on the imported object
 dotenv.config();
-
-//const config = require('dotenv')
-//config()
 
 module.exports = {
     db: {

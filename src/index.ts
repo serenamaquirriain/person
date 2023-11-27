@@ -11,7 +11,7 @@ async function main(){
         console.log("Database connected");
         app.listen(4000);
         console.log("Server on port", 4000);
-        //corre a las 00:00 todos los dias
+        // Runs every day at midnight
         cron.schedule('0 0 * * *', dailyUpdate);
     } catch (error){
         console.error(error);
