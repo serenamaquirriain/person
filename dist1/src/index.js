@@ -24,7 +24,7 @@ function main() {
             console.log("Database connected");
             app_1.default.listen(4000);
             console.log("Server on port", 4000);
-            //corre a las 00:00 todos los dias
+            // Runs every day at midnight
             node_cron_1.default.schedule('0 0 * * *', updater_1.default);
         }
         catch (error) {

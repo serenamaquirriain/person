@@ -13,5 +13,5 @@ export const AppDataSource = new DataSource({
     entities: [Person],
     logging: true, // Enable logging in development
     synchronize: true, // Synchronize database in development
-
+    ssl: db.ssl,
 })

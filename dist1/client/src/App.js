@@ -17,6 +17,6 @@ function App() {
             react_1.default.createElement(react_router_dom_1.Routes, null,
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/", element: react_1.default.createElement(PersonList_1.default, null) }),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/persons/new", element: react_1.default.createElement(PersonForm_1.default, null) }),
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/personss/:id/edit", element: react_1.default.createElement(PersonForm_1.default, null) })))));
+                react_1.default.createElement(react_router_dom_1.Route, { path: "/persons/:id/edit", element: react_1.default.createElement(PersonForm_1.default, null) })))));
 }
 exports.default = App;
