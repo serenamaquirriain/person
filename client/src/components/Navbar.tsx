@@ -1,6 +1,7 @@
 import React from 'react';
 import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
 import {Link, useNavigate} from 'react-router-dom'
+import {Delete, Edit, ArrowUpward} from '@mui/icons-material'
 
 export default function Navbar(){
 

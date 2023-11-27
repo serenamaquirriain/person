@@ -85,7 +85,7 @@ function PersonList() {
             ageCategory: person.ageCategory,
             birthDate: person.formattedDate,
             actions: (react_1.default.createElement("div", null,
-                react_1.default.createElement(material_1.Button, { variant: "contained", color: "inherit", onClick: () => navigate(`/users/${person.id}/edit`) }, "Edit"),
+                react_1.default.createElement(material_1.Button, { variant: "contained", color: "inherit", onClick: () => navigate(`/persons/${person.id}/edit`) }, "Edit"),
                 react_1.default.createElement(material_1.Button, { variant: "contained", color: "secondary", onClick: () => handleDelete(person.id.toString()) }, "Delete"))),
         }));
     };

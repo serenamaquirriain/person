@@ -120,7 +120,7 @@ export default function PersonList(){
               <Button
                 variant="contained"
                 color="inherit"
-                onClick={() => navigate(`/users/${person.id}/edit`)}
+                onClick={() => navigate(`/persons/${person.id}/edit`)}
               >
                 Edit
               </Button>

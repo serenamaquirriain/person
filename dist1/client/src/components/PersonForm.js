@@ -42,7 +42,7 @@ function PersonForm() {
             });
         }
         else {
-            yield fetch('http://localhost:4000/persons', {
+            yield fetch('http://localhost:4000/persons/', {
                 method: 'POST',
                 body: JSON.stringify(person),
                 headers: { "Content-Type": "application/json" }

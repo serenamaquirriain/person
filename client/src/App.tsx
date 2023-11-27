@@ -13,8 +13,8 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<PersonList/>} />
-          <Route path="/users/new" element={<PersonForm/>}/>
-          <Route path="/users/:id/edit" element={<PersonForm/>}/>
+          <Route path="/persons/new" element={<PersonForm/>}/>
+          <Route path="/persons/:id/edit" element={<PersonForm/>}/>
         </Routes>
       </Container>
     </BrowserRouter>

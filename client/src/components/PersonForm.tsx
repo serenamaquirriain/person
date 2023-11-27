@@ -34,7 +34,7 @@ export default function PersonForm(){
                 body: JSON.stringify(person)
             });
         } else{
-            await fetch('http://localhost:4000/persons', {
+            await fetch('http://localhost:4000/persons/', {
                 method: 'POST',
                 body: JSON.stringify(person),
                 headers: {"Content-Type": "application/json"}

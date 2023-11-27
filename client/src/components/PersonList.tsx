@@ -1,9 +1,10 @@
 import React from 'react';
 import {useState, useEffect} from "react"
 import {Button, Table, TableCell, TableRow, TableBody, TableContainer, TableHead, Paper, IconButton} from '@mui/material'
-import {ArrowDropUp} from '@mui/icons-material'
+import {Delete, Edit, ArrowUpward} from '@mui/icons-material'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 //Card, CardContent, Typography
-import { DataGrid} from '@mui/x-data-grid'
+//import { DataGrid} from '@mui/x-data-grid'
 import {useNavigate} from 'react-router-dom'
 import Person from './Person'
 
@@ -58,18 +59,12 @@ export default function PersonList(){
     const handleSort = async (sortOrder: SortOrder, sortBy: SortBy) => {
       try {
         console.log('button clicked')
-        // Specify your sortBy and sortOrder values
-        //const sortBy = 'name'; // Replace with your desired field
-        //const sortOrder = 'ASC'; // Replace with 'ASC' or 'DESC'
-
-        //setSortBy(sortBy);
-        //setSortOrder(sortOrder);
-  
+        
         // Construct the URL with the parameters
         const url = `http://localhost:4000/persons?sortBy=${sortBy}&sortOrder=${sortOrder}`;
         //const url = `http://localhost:4000/persons?sortBy=name&sortOrder=ASC`;
   
-        // Make the request to your backend
+        // Make the request to the backend
         const response = await fetch(url);
         const data = await response.json();
 
@@ -102,21 +97,13 @@ export default function PersonList(){
           birthDate: person.formattedDate,
           actions: (
             <div>
-              <Button
-                variant="contained"
-                color="inherit"
-                onClick={() => navigate(`/users/${person.id}/edit`)}
-              >
-                Edit
-              </Button>
-      
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDelete(person.id.toString())}
-              >
-                Delete
-              </Button>
+              <IconButton onClick={()=>navigate(`/persons/${person.id}/edit`)}>
+                <Edit style={{ maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px' }} />
+              </IconButton>
+              <IconButton onClick={()=>handleDelete(person.id.toString())}>
+                <Delete style={{ maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px' }} />
+              </IconButton>
+              
             </div>
           ),
         }));
@@ -131,15 +118,40 @@ export default function PersonList(){
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="right">Name</TableCell>
-                              <IconButton>
-                                  <ArrowDropUp/>
+                          <TableCell align="right">
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                              <div style={{ textAlign: 'center', flex: 1 }}>
+                                Nombre
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <IconButton onClick={()=>handleSort('ASC', 'name')}>
+                                  <ArrowUpward style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
                                 </IconButton>
-                            <TableCell align="right">Last Name</TableCell>
-                            <TableCell align="right">Age</TableCell>
-                            <TableCell align="right">Age Category</TableCell>
-                            <TableCell align="right">Birth Date</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                                <IconButton onClick={()=>handleSort('DESC', 'name')}>
+                                  <ArrowDownwardIcon style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                </IconButton>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell align="right">
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                              <div style={{ textAlign: 'center', flex: 1 }}>
+                                Apellido
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <IconButton onClick={()=>handleSort('ASC', 'lastName')}>
+                                  <ArrowUpward style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                </IconButton>
+                                <IconButton onClick={()=>handleSort('DESC', 'lastName')}>
+                                  <ArrowDownwardIcon style={{ maxWidth: '12px', maxHeight: '12px', minWidth: '10px', minHeight: '10px' }} />
+                                </IconButton>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell align="right">Age</TableCell>
+                          <TableCell align="right">Age Category</TableCell>
+                          <TableCell align="right">Birth Date</TableCell>
+                          <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -171,37 +183,6 @@ export default function PersonList(){
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button
-                variant="contained"
-                color="inherit"
-                onClick={()=>handleSort('ASC', 'name')}
-            >
-              Name ascending
-            </Button>
-
-            <Button
-              variant="contained"
-              color="inherit"
-              onClick={()=>handleSort('DESC', 'name')}
-            >
-              Name descending
-            </Button>
-
-            <Button
-              variant="contained"
-              color="inherit"
-              onClick={()=>handleSort('ASC', 'lastName')}
-            >
-              lastName ascending
-            </Button>
-
-            <Button
-              variant="contained"
-              color="inherit"
-              onClick={()=>handleSort('DESC', 'lastName')}
-            >
-              lastName descending
-            </Button>
         </>
     )
 }
