@@ -1,18 +1,10 @@
 import {
     AfterLoad,
-    AfterInsert,
-    AfterUpdate,
     Column, 
     Entity, 
-    PrimaryGeneratedColumn, 
-    BeforeInsert,
-    BeforeUpdate,
-    Index,
+    PrimaryGeneratedColumn,
     BaseEntity,
-    Between
 } from 'typeorm';
-
-//import { AppDataSource } from '../db';
 
 enum AgeCategory{
     Child = 'Niño',
@@ -20,7 +12,6 @@ enum AgeCategory{
     Adult = 'Adulto',
     Octagenarian = 'Octagenario'
 }
-
 
 @Entity()
 export class Person extends BaseEntity{
@@ -71,8 +62,6 @@ export class Person extends BaseEntity{
             this.ageCategory = AgeCategory.Octagenarian;
           }
     }
-
-
 }
 
 export default Person;

@@ -1,8 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {Person} from '../entities/Person';
-import { request } from "http";
 import { AppDataSource } from '../db';
-import {Equal} from 'typeorm'
 
 export const createPerson = async (req: Request, res: Response, next: NextFunction) => {
     try{

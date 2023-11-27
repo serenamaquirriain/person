@@ -1,7 +1,7 @@
 import React from 'react';
-import {IconButton, AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
-import {Link, useNavigate} from 'react-router-dom'
-import {Delete, Edit, ArrowUpward, Home} from '@mui/icons-material'
+import {IconButton, AppBar, Box, Button, Container, Toolbar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { Home } from '@mui/icons-material'
 
 export default function Navbar(){
 
