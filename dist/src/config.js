@@ -4,16 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-// Call the config method on the imported object
 dotenv_1.default.config();
-//const config = require('dotenv')
-//config()
 module.exports = {
     db: {
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        port: process.env.DB_PORT,
-        database: process.env.DB_DATABASE
+        host: process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : process.env.DB_HOST,
+        user: process.env.NODE_ENV === 'production' ? '' : process.env.DB_USER,
+        password: process.env.NODE_ENV === 'production' ? '' : process.env.DB_PASSWORD,
+        port: process.env.NODE_ENV === 'production' ? '' : process.env.DB_PORT,
+        database: process.env.NODE_ENV === 'production' ? '' : process.env.DB_DATABASE,
+        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }
 };

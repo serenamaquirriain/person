@@ -8,5 +8,4 @@ router.get("/persons", person_controllers_1.getPersons);
 router.put('/persons/:id', person_controllers_1.updatePerson);
 router.delete('/persons/:id', person_controllers_1.deletePerson);
 router.get('/persons/:id', person_controllers_1.getPerson);
-//router.get('http://localhost:4000/persons?sortBy=name%sortOrder=ASC', getPersonsNameAsc);
 exports.default = router;

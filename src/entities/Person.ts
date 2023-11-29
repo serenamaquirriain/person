@@ -4,6 +4,7 @@ import {
     Entity, 
     PrimaryGeneratedColumn,
     BaseEntity,
+    Index
 } from 'typeorm';
 
 enum AgeCategory{
@@ -14,6 +15,7 @@ enum AgeCategory{
 }
 
 @Entity()
+@Index('idx_birthDate', ['birthDate']) // To optimize fetching today's birthdays (see updater)
 export class Person extends BaseEntity{
 
     @PrimaryGeneratedColumn()
@@ -24,7 +26,7 @@ export class Person extends BaseEntity{
 
     @Column({nullable:false})
     lastName: string;
-
+    
     @Column({nullable:false})
     birthDate: Date;
 

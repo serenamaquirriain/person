@@ -19,6 +19,7 @@ var AgeCategory;
     AgeCategory["Octagenarian"] = "Octagenario";
 })(AgeCategory || (AgeCategory = {}));
 let Person = class Person extends typeorm_1.BaseEntity {
+    // Calculates age from birthDate
     setAge() {
         const today = new Date();
         const birthDate = this.birthDate;
@@ -28,6 +29,7 @@ let Person = class Person extends typeorm_1.BaseEntity {
             this.age--;
         }
     }
+    // Calculates Age Category from age
     setAgeCategory() {
         if (!this.birthDate || !this.age) {
             throw new Error('birthDate and date are required');

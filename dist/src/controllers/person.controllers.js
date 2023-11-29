@@ -24,11 +24,6 @@ const createPerson = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (error) {
         next(error);
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 });
 exports.createPerson = createPerson;
@@ -51,21 +46,15 @@ const getPersons = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.getPersons = getPersons;
 const updatePerson = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //const{firstName, lastName} = req.body;
         const { id } = req.params;
         const person = yield Person_1.Person.findOneBy({ id: parseInt(req.params.id) });
         if (!person)
             return res.status(404).json({ message: 'Person not found' });
-        yield Person_1.Person.update({ id: parseInt(id) }, req.body); //para que solo actualice lo que le paso
+        yield Person_1.Person.update({ id: parseInt(id) }, req.body); // only the new parameters are updated
         return res.sendStatus(204);
     }
     catch (error) {
         next(error);
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 });
 exports.updatePerson = updatePerson;
@@ -80,11 +69,6 @@ const deletePerson = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (error) {
         next(error);
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 });
 exports.deletePerson = deletePerson;
@@ -96,11 +80,6 @@ const getPerson = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
     catch (error) {
         next(error);
-        /*
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
-        }
-        */
     }
 });
 exports.getPerson = getPerson;

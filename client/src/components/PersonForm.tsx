@@ -80,7 +80,7 @@ export default function PersonForm(){
             const maxDate = new Date(); //today
         
             if (isNaN(enteredDate.getFullYear()) || enteredDate < minDate || enteredDate > maxDate) {
-              setBirthDateErrorMessage(`Please enter a date between ${minDate.toISOString().split('T')[0]} and ${maxDate.toISOString().split('T')[0]}`);
+              setBirthDateErrorMessage(`Invalid date`);
             } else {
               setBirthDateErrorMessage('');
             }

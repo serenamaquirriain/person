@@ -15,24 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Person_1 = __importDefault(require("./entities/Person"));
 const db_1 = require("./db");
 const typeorm_1 = require("typeorm");
+// Updates the ages of persons whose birthday is today
 const dailyUpdate = () => __awaiter(void 0, void 0, void 0, function* () {
     const today = new Date();
     console.log(today);
-    const todayMonth = today.getMonth() + 1; // Months are 0-indexed, so add 1
+    const todayMonth = today.getMonth() + 1; // Adds 1 because months are 0 indexed
     const todayDay = today.getDate();
     const personsToUpdate = yield db_1.AppDataSource.getRepository(Person_1.default).find({
         where: {
-            // Use the RAW SQL to compare only the month and day components
+            // Compares month and date by using raw SQL
             birthDate: (0, typeorm_1.Raw)((Person) => `EXTRACT(MONTH FROM "Person"."birthDate") = ${todayMonth} AND EXTRACT(DAY FROM "Person"."birthDate") = ${todayDay}`),
         },
-        // birthDate: Equal(today),
-        //},
     });
     for (const person of personsToUpdate) {
-        person.age += 1; // Increment the age by 1
+        person.age += 1; // Increments the age by 1
         yield db_1.AppDataSource.getRepository(Person_1.default).save(person);
     }
-    console.log(personsToUpdate);
-    console.log('ejecutando!!');
 });
 exports.default = dailyUpdate;
