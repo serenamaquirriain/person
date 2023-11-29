@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc --jsx react",
     "webpack": "webpack",
-    "start": "node dist/src/index.js",
+    "start": "node dist1/src/index.js",
     "test": "jest"
   },
   "repository": {
